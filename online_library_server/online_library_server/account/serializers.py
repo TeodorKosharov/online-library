@@ -17,3 +17,4 @@ class UserSerializer(serializers.ModelSerializer):
             raise ValidationError('Password too short!')
 
         return super().validate(data)
+

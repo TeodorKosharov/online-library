@@ -28,17 +28,17 @@ def login_user(request):
         try:
             user = UserModel.objects.get(username=username, password=password)
             login(request, user)
-            return JsonResponse('User logged-in successfully!', safe=False)
+            return JsonResponse('User logged-in successfully!', safe=False, status=200)
         except UserModel.DoesNotExist:
-            return JsonResponse('User not found!', safe=False)
+            return JsonResponse('User not found!', safe=False, status=404)
 
 
 @csrf_exempt
 def logout_user(request):
     logout(request)
-    return JsonResponse('User logged-out successfully!', safe=False)
+    return JsonResponse('User logged-out successfully!', safe=False, status=200)
 
 
 @csrf_exempt
-def get_user_data(request):
+def user_data(request):
     return JsonResponse(f'{request.user.username}', safe=False)
