@@ -1,0 +1,13 @@
+.footer {
+    background-color: #003566FF;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerTitle {
+    margin: 0;
+    font-family: 'Fredoka One', cursive;
+    color: #d3dfff;
+}

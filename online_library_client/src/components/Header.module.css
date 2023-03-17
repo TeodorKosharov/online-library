@@ -1,0 +1,51 @@
+.header {
+    background-color: #0055A3FF;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    margin: 0;
+    height: 70%;
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    font-size: 5vh;
+    display: flex;
+    align-items: center;
+}
+
+.navi {
+    height: 30%;
+    width: 100%;
+    background-color: #0075e0;
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 2vw;
+    font-family: 'Fredoka One', cursive;
+    color: white;
+}
+
+.listItem {
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.listItem:hover {
+    color: #c3d5ff;
+    transform: scale(1.1);
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+}

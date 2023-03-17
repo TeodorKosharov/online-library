@@ -1,0 +1,47 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+}
+
+.label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #004D94FF;
+}
+
+.input {
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'Fredoka One', cursive;
+    text-align: center;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.button {
+    background-color: #0074DEFF;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    padding: 5px;
+    color: white;
+    border: #0078E6FF inset;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
