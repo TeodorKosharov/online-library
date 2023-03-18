@@ -1,44 +1,38 @@
-from django.contrib.auth import get_user_model, login, logout
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import get_user_model, authenticate
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 from online_library_server.account.serializers import UserSerializer
+from rest_framework.authtoken.models import Token
 
 UserModel = get_user_model()
 
 
-@csrf_exempt
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def register_user(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = UserSerializer(data=data)
 
         if serializer.is_valid():
-            serializer.save()
-            return JsonResponse('User registered successfully!', status=201, safe=False)
-        return JsonResponse(serializer.errors, status=400, safe=False)
+            UserModel.objects.create_user(username=data.get('username'), password=data.get('password'))
+            Token.objects.create(user=UserModel.objects.last())
+            return Response('User registered successfully!', status=201)
+        return Response(serializer.errors, status=400)
 
 
-@csrf_exempt
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def login_user(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         username = data.get('username')
         password = data.get('password')
-        try:
-            user = UserModel.objects.get(username=username, password=password)
-            login(request, user)
-            return JsonResponse('User logged-in successfully!', safe=False, status=200)
-        except UserModel.DoesNotExist:
-            return JsonResponse('User not found!', safe=False, status=404)
-
-
-@csrf_exempt
-def logout_user(request):
-    logout(request)
-    return JsonResponse('User logged-out successfully!', safe=False, status=200)
-
-
-@csrf_exempt
-def user_data(request):
-    return JsonResponse(f'{request.user.username}', safe=False)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            token = Token.objects.get(user_id=user.id)
+            return Response(token.key, status=200)
+        return Response('User not found!', status=404)
