@@ -1,12 +1,17 @@
 import styles from "./AuthPages.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import Swal from 'sweetalert2';
 
 export const RegisterPage = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const navigate = useNavigate();
+
+    let usernameInputClasses = `${styles.input}`;
+    let passwordInputClasses = `${styles.input}`;
+    let confPasswordInputClasses = `${styles.input}`;
 
     function onUsernameChange(event) {
         setUsername(event.target.value);
@@ -15,48 +20,99 @@ export const RegisterPage = () => {
     function onPasswordChange(event) {
         setPassword(event.target.value);
     }
+
     function onConfirmPasswordChange(event) {
         setConfirmPassword(event.target.value);
     }
 
-
     function submitForm(event) {
         event.preventDefault();
-        navigate('/');
+        let errors = '';
+        if ((username.length >= 1 && username.length <= 3)) errors += '<p>Username is too short!</p>';
+        if (username.length > 10) errors += '<p>Username is too long!</p>';
+        if (password.length < 8) errors += '<p>Password is too short!</p>';
+        if (password !== confirmPassword) errors += '<p>Passwords did not match!</p>';
+        errors ? Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            html: errors,
+            buttonsStyling: false,
+            customClass: {
+                title: `${styles.swalTitle}`,
+                htmlContainer: `${styles.swalErrors}`,
+                confirmButton: `${styles.button}`,
+            }
+        }) : Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'You have registered successfully!',
+            buttonsStyling: false,
+            customClass: {
+                title: `${styles.swalTitle}`,
+                container: `${styles.swalErrors}`,
+                confirmButton: `${styles.button}`
+            }
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    fetch('http://127.0.0.1:8000/account/register/', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({username, password})
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data === 'User registered successfully!') navigate('/');
+                        });
+                }
+            });
     }
 
-    return (
-        <div className={styles.loginContainer}>
-            <form className={styles.form} onSubmit={submitForm}>
-                <label className={styles.label} htmlFor="username">Username</label>
-                <input
-                    className={styles.input}
-                    type="text"
-                    id="username"
-                    placeholder="John"
-                    value={username}
-                    onChange={onUsernameChange}/>
+    if ((username.length >= 1 && username.length <= 3) || username.length > 10) {
+        usernameInputClasses += ` ${styles.invalid}`;
+    }
 
-                <label className={styles.label} htmlFor="password">Password</label>
-                <input
-                    className={styles.input}
-                    type="password"
-                    id="password"
-                    placeholder="******"
-                    value={password}
-                    onChange={onPasswordChange}/>
+    if (password.length < 8 && password.length >= 1) {
+        passwordInputClasses += ` ${styles.invalid}`;
+    }
 
-                <label className={styles.label} htmlFor="confirm-password">Confirm password</label>
-                <input
-                    className={styles.input}
-                    type="password"
-                    id="confirm-password"
-                    placeholder="******"
-                    value={confirmPassword}
-                    onChange={onConfirmPasswordChange}/>
+    if (confirmPassword.length < 8 && confirmPassword.length >= 1) {
+        confPasswordInputClasses += ` ${styles.invalid}`;
+    }
 
-                <button className={styles.button}>Register</button>
-            </form>
-        </div>
-    );
+    return (<div className={styles.loginContainer}>
+        <form className={styles.form} onSubmit={submitForm}>
+            <label className={styles.label} htmlFor="username">Username</label>
+            <input
+                className={usernameInputClasses}
+                type="text"
+                id="username"
+                placeholder="Between 4 and 10 chars"
+                required={true}
+                value={username}
+                onChange={onUsernameChange}/>
+
+            <label className={styles.label} htmlFor="password">Password</label>
+            <input
+                className={passwordInputClasses}
+                type="password"
+                id="password"
+                placeholder="Longer than 7 chars"
+                required={true}
+                value={password}
+                onChange={onPasswordChange}/>
+
+            <label className={styles.label} htmlFor="confirm-password">Confirm password</label>
+            <input
+                className={confPasswordInputClasses}
+                type="password"
+                id="confirm-password"
+                placeholder="Same as your password"
+                required={true}
+                value={confirmPassword}
+                onChange={onConfirmPasswordChange}/>
+
+            <button className={styles.button}>Register</button>
+        </form>
+    </div>);
 }
