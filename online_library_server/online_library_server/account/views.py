@@ -20,7 +20,8 @@ def register_user(request):
             UserModel.objects.create_user(username=data.get('username'), password=data.get('password'))
             Token.objects.create(user=UserModel.objects.last())
             return Response('User registered successfully!', status=201)
-        return Response(serializer.errors, status=400)
+        errors = serializer.errors.values()
+        return Response(errors, status=400)
 
 
 @api_view(['POST'])

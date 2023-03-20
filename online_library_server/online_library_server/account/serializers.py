@@ -12,9 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         password = data.get('password')
+        username = data.get('username')
 
         if len(password) < 8:
-            raise ValidationError('Password too short!')
+            raise ValidationError('Password is too short!')
+        if len(username) <= 3:
+            raise ValidationError('Username too short!')
+        if len(username) > 10:
+            raise ValidationError('The username can consist of a maximum of 10 characters!')
 
         return super().validate(data)
 
