@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/online_library_client.iml" filepath="$PROJECT_DIR$/.idea/online_library_client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../online_library_server/.idea/online_library_server.iml" filepath="$PROJECT_DIR$/../online_library_server/.idea/online_library_server.iml" />
     </modules>
   </component>
 </project>

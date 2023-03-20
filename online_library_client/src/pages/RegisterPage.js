@@ -1,7 +1,7 @@
 import styles from "./AuthPages.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import Swal from 'sweetalert2';
+import {customAlert} from "../utils/customAlert";
 
 export const RegisterPage = () => {
     const [username, setUsername] = React.useState('');
@@ -32,38 +32,20 @@ export const RegisterPage = () => {
         if (username.length > 10) errors += '<p>Username is too long!</p>';
         if (password.length < 8) errors += '<p>Password is too short!</p>';
         if (password !== confirmPassword) errors += '<p>Passwords did not match!</p>';
-        errors ? Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: errors,
-            buttonsStyling: false,
-            customClass: {
-                title: `${styles.swalTitle}`,
-                htmlContainer: `${styles.swalErrors}`,
-                confirmButton: `${styles.button}`,
-            }
-        }) : Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'You have registered successfully!',
-            buttonsStyling: false,
-            customClass: {
-                title: `${styles.swalTitle}`,
-                container: `${styles.swalErrors}`,
-                confirmButton: `${styles.button}`
-            }
-        })
-            .then(result => {
-                if (result.isConfirmed) {
-                    fetch('http://127.0.0.1:8000/account/register/', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({username, password})
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data === 'User registered successfully!') navigate('/');
-                        });
+        errors
+            ? customAlert('error', 'Oops...', null, errors)
+            : fetch('http://127.0.0.1:8000/account/register/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
+            }).then((response) => response.json()).then((data) => {
+                if (data === 'User registered successfully!') {
+                    customAlert('success', 'Success', 'You have registered successfully!')
+                        .then(() => {
+                        navigate(('/'));
+                    });
+                } else {
+                    customAlert('error', 'Oops...', data[0][0]);
                 }
             });
     }

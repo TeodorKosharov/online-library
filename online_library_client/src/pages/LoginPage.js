@@ -1,6 +1,7 @@
 import styles from "./AuthPages.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import {customAlert} from "../utils/customAlert";
 
 export const LoginPage = () => {
     const [username, setUsername] = React.useState('');
@@ -17,7 +18,24 @@ export const LoginPage = () => {
 
     function submitForm(event) {
         event.preventDefault();
-        navigate('/');
+
+        fetch('http://127.0.0.1:8000/account/login/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, password})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data === 'User not found!') {
+                    customAlert('error', 'Oops...', data);
+                } else {
+                    customAlert('success', 'Success', 'User logged-in successfully!')
+                        .then(() => {
+                            sessionStorage.setItem('token', data);
+                            navigate(('/'));
+                        });
+                }
+            })
     }
 
     return (
