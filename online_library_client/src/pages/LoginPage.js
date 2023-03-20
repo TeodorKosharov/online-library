@@ -2,11 +2,14 @@ import styles from "./AuthPages.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {customAlert} from "../utils/customAlert";
+import {TokenContext} from "../contexts/TokenContext";
+import {useContext} from "react";
 
 export const LoginPage = () => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const navigate = useNavigate();
+    const [token, setToken] = useContext(TokenContext);
 
     function onUsernameChange(event) {
         setUsername(event.target.value);
@@ -26,12 +29,13 @@ export const LoginPage = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data === 'User not found!') {
+                if (data === 'User not found!' || data === 'Incorrect password!') {
                     customAlert('error', 'Oops...', data);
                 } else {
                     customAlert('success', 'Success', 'User logged-in successfully!')
                         .then(() => {
                             sessionStorage.setItem('token', data);
+                            setToken(sessionStorage.getItem('token'));
                             navigate(('/'));
                         });
                 }
