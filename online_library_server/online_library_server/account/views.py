@@ -36,4 +36,6 @@ def login_user(request):
         if user is not None:
             token = Token.objects.get(user_id=user.id)
             return Response(token.key, status=200)
+        if UserModel.objects.filter(username=username):
+            return Response('Incorrect password!', status=403)
         return Response('User not found!', status=404)
