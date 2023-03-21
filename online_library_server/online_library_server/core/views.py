@@ -1,6 +1,11 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from online_library_server.core.serializers import BookSerializer, CommentSerializer
 from online_library_server.core.models import Book, Comment
 
@@ -14,19 +19,18 @@ def get_books(request):
     return JsonResponse(serializer.data, safe=False, status=200)
 
 
-@csrf_exempt
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def add_book(request):
-    if request.user.__class__.__name__ == 'AnonymousUser':
-        return JsonResponse('You must be logged-in!', safe=False, status=401)
-
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = BookSerializer(data=data)
-
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse('Book created successfully!', safe=False, status=201)
-        return JsonResponse(serializer.errors, safe=False, status=400)
+            return Response('Book added successfully!', status=201)
+        errors = serializer.errors.values()
+        return Response(errors, status=400)
 
 
 @csrf_exempt
