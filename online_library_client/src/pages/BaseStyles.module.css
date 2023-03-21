@@ -73,3 +73,16 @@
     background-color: #ee203e;
     border-color: #ee203e;
 }
+
+.select {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: #858381FF;
+    background-color: #e5f3ff;
+    border: #0075e0 inset 3px;
+    border-radius: 10px;
+}
+
+.select:focus {
+    outline: none;
+}

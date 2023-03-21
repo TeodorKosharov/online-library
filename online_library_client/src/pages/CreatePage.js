@@ -5,6 +5,7 @@ import {customAlert} from "../utils/customAlert";
 export const CreatePage = () => {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [genre, setGenre] = React.useState('fiction');
     const [imageUrl, setImageUrl] = React.useState('');
 
     let titleInputClasses = `${styles.input}`;
@@ -24,6 +25,10 @@ export const CreatePage = () => {
 
     function onDescriptionChange(event) {
         setDescription(event.target.value);
+    }
+
+    function onGenreChange(event) {
+        setGenre(event.target.value);
     }
 
     function onImageUrlChange(event) {
@@ -46,16 +51,16 @@ export const CreatePage = () => {
             : fetch('http://127.0.0.1:8000/core/add-book/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'Authorization': `Token ${token}`},
-                body: JSON.stringify({title, description, 'image_url': imageUrl, 'creator_id': userId})
+                body: JSON.stringify({title, description, genre, 'image_url': imageUrl, 'creator_id': userId})
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    if (data === 'Book created successfully!') customAlert('success', 'Success', data, null);
+                    if (data === 'Book added successfully!') customAlert('success', 'Success', data, null);
                     else customAlert('error', 'Oops...', data[0][0], null);
                 })
     }
 
-    return (<>
+    return (
         <form className={styles.form} onSubmit={onFormSubmit}>
             <h1 className={styles.label}>Add book to library</h1>
             <label className={styles.label} htmlFor="title">Title</label>
@@ -80,6 +85,14 @@ export const CreatePage = () => {
                 value={description}
                 onChange={onDescriptionChange}/>
 
+            <label className={styles.label} htmlFor="genre">Genre</label>
+            <select className={styles.select} onClick={onGenreChange}>
+                <option>fiction</option>
+                <option>mystery</option>
+                <option>adventure</option>
+                <option>biography</option>
+            </select>
+
             <label className={styles.label} htmlFor="imageUrl">Image URL</label>
             <input
                 className={styles.input}
@@ -92,5 +105,5 @@ export const CreatePage = () => {
 
             <button className={styles.button}>Add to library</button>
         </form>
-    </>);
+    );
 }
