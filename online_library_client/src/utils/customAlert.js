@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import styles from "../pages/AuthPages.module.css";
+import styles from "../pages/BaseStyles.module.css";
 
 export function customAlert(icon, title, text, html) {
     if (html) {

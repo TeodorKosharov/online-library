@@ -1,4 +1,4 @@
-import styles from "./AuthPages.module.css";
+import styles from "./BaseStyles.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {customAlert} from "../utils/customAlert";
@@ -34,8 +34,9 @@ export const LoginPage = () => {
                 } else {
                     customAlert('success', 'Success', 'User logged-in successfully!')
                         .then(() => {
-                            sessionStorage.setItem('token', data);
-                            setToken(sessionStorage.getItem('token'));
+                            localStorage.setItem('token', data['token']);
+                            localStorage.setItem('userId', data['user_id']);
+                            setToken(localStorage.getItem('token'));
                             navigate(('/'));
                         });
                 }
@@ -51,6 +52,7 @@ export const LoginPage = () => {
                     type="text"
                     id="username"
                     placeholder="John"
+                    required={true}
                     value={username}
                     onChange={onUsernameChange}/>
 
@@ -60,6 +62,7 @@ export const LoginPage = () => {
                     type="password"
                     id="password"
                     placeholder="******"
+                    required={true}
                     value={password}
                     onChange={onPasswordChange}/>
 

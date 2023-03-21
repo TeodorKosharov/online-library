@@ -1,4 +1,4 @@
-import styles from "./AuthPages.module.css";
+import styles from "./BaseStyles.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {customAlert} from "../utils/customAlert";
@@ -12,6 +12,18 @@ export const RegisterPage = () => {
     let usernameInputClasses = `${styles.input}`;
     let passwordInputClasses = `${styles.input}`;
     let confPasswordInputClasses = `${styles.input}`;
+
+    if (username.length >= 1 && username.length <= 3) {
+        usernameInputClasses += ` ${styles.invalid}`;
+    }
+
+    if (password.length < 8 && password.length >= 1) {
+        passwordInputClasses += ` ${styles.invalid}`;
+    }
+
+    if (confirmPassword.length < 8 && confirmPassword.length >= 1) {
+        confPasswordInputClasses += ` ${styles.invalid}`;
+    }
 
     function onUsernameChange(event) {
         setUsername(event.target.value);
@@ -29,7 +41,6 @@ export const RegisterPage = () => {
         event.preventDefault();
         let errors = '';
         if ((username.length >= 1 && username.length <= 3)) errors += '<p>Username is too short!</p>';
-        if (username.length > 10) errors += '<p>Username is too long!</p>';
         if (password.length < 8) errors += '<p>Password is too short!</p>';
         if (password !== confirmPassword) errors += '<p>Passwords did not match!</p>';
         errors
@@ -42,24 +53,12 @@ export const RegisterPage = () => {
                 if (data === 'User registered successfully!') {
                     customAlert('success', 'Success', 'You have registered successfully!')
                         .then(() => {
-                        navigate(('/'));
-                    });
+                            navigate(('/'));
+                        });
                 } else {
                     customAlert('error', 'Oops...', data[0][0]);
                 }
             });
-    }
-
-    if ((username.length >= 1 && username.length <= 3) || username.length > 10) {
-        usernameInputClasses += ` ${styles.invalid}`;
-    }
-
-    if (password.length < 8 && password.length >= 1) {
-        passwordInputClasses += ` ${styles.invalid}`;
-    }
-
-    if (confirmPassword.length < 8 && confirmPassword.length >= 1) {
-        confPasswordInputClasses += ` ${styles.invalid}`;
     }
 
     return (<div className={styles.loginContainer}>
@@ -71,6 +70,7 @@ export const RegisterPage = () => {
                 id="username"
                 placeholder="Between 4 and 10 chars"
                 required={true}
+                maxLength={10}
                 value={username}
                 onChange={onUsernameChange}/>
 

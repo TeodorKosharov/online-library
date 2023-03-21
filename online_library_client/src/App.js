@@ -6,7 +6,7 @@ import {TokenContext} from "./contexts/TokenContext";
 import React from "react";
 
 function App() {
-    const [token, setToken] = React.useState(sessionStorage.getItem('token'));
+    const [token, setToken] = React.useState(localStorage.getItem('token'));
 
     return (
         <div className="App">
