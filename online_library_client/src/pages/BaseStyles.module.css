@@ -67,3 +67,9 @@
 .swalErrors {
     font-family: 'Fredoka One', cursive;
 }
+
+.swalDenyBtn {
+    margin-left: 10px;
+    background-color: #ee203e;
+    border-color: #ee203e;
+}

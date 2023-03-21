@@ -1,14 +1,31 @@
 import styles from "./Header.module.css";
+import baseStyles from "../pages/BaseStyles.module.css";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const LoggedUserNav = (props) => {
     const navigate = useNavigate();
 
     function logout() {
-        localStorage.clear();
-        props.updateToken(localStorage.getItem('token'));
-        navigate(('/'));
+        Swal.fire({
+            title: 'Do you want ot log out?',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `Cancel`,
+            buttonsStyling: false, customClass: {
+                title: `${baseStyles.swalTitle}`,
+                container: `${baseStyles.swalErrors}`,
+                confirmButton: `${baseStyles.button}`,
+                denyButton: `${baseStyles.button} ${baseStyles.swalDenyBtn}`
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.clear();
+                props.updateToken(localStorage.getItem('token'));
+                navigate(('/'));
+            }
+        });
     }
 
     return (
