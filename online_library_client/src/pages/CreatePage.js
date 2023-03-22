@@ -86,7 +86,7 @@ export const CreatePage = () => {
                 onChange={onDescriptionChange}/>
 
             <label className={styles.label} htmlFor="genre">Genre</label>
-            <select className={styles.select} onClick={onGenreChange}>
+            <select className={styles.select} id="genre" onClick={onGenreChange}>
                 <option>fiction</option>
                 <option>mystery</option>
                 <option>adventure</option>
