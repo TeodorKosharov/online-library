@@ -66,19 +66,42 @@ def delete_book(request, book_id):
     return Response('Book deleted successfully!', status=202)
 
 
-@csrf_exempt
-def add_comment(request):
-    if request.user.__class__.__name__ == 'AnonymousUser':
-        return JsonResponse('You must be logged-in!', safe=False, status=401)
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def details_book(request, book_id):
+    selected_book = Book.objects.get(pk=book_id)
+    return Response(
+        {
+            'title': selected_book.title,
+            'description': selected_book.description,
+            'genre': selected_book.genre,
+            'imageUrl': selected_book.image_url,
+        }, status=200)
 
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def get_comments(request, book_id):
+    comments_queryset = Comment.objects.filter(book_id=book_id)
+    comments = CommentSerializer(comments_queryset, many=True)
+    return Response(comments.data, status=200)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def add_comment(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = CommentSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse('Comment created successfully!', safe=False, status=201)
-        return JsonResponse(serializer.errors, safe=False, status=400)
+            return Response('Comment created successfully!', status=201)
+        errors = serializer.errors.values()
+        return Response(errors, status=400)
 
 
 @csrf_exempt
