@@ -2,6 +2,7 @@ import styles from "./CatalogStyles.module.css";
 import baseStyles from "./BaseStyles.module.css";
 import React from "react";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
+import {Link} from "react-router-dom";
 
 export const CatalogPage = () => {
     const [books, setBooks] = React.useState([]);
@@ -40,7 +41,7 @@ export const CatalogPage = () => {
     }
 
     function deleteBook(bookId) {
-        customQuestionAlert('Do you want to delete the book?')
+        customQuestionAlert('Do you want to delete the book?', null)
             .then((result) => {
                 if (result.isConfirmed) {
                     fetch(`http://127.0.0.1:8000/core/delete-book/${bookId}/`, {
@@ -92,8 +93,10 @@ export const CatalogPage = () => {
                         </div>
 
                         <div className={styles.buttonsBox}>
-                            <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
-                               title="Details"></i>
+                            <Link className={baseStyles.link} to={`/details/${book.id}`}>
+                                <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
+                                   title="Details"></i>
+                            </Link>
 
                             {userId === book.creator_id
                                 ?

@@ -7,7 +7,7 @@ export const LoggedUserNav = (props) => {
     const navigate = useNavigate();
 
     function logout() {
-        customQuestionAlert('Do you want ot log out?').then((result) => {
+        customQuestionAlert('Do you want ot log out?', null).then((result) => {
             if (result.isConfirmed) {
                 localStorage.clear();
                 props.updateToken(localStorage.getItem('token'));

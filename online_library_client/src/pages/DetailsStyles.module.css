@@ -1,0 +1,154 @@
+.wrapper {
+    width: 70%;
+    height: 90%;
+    display: flex;
+}
+
+.bookBox {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bookImg {
+    width: 80%;
+    border-radius: 12px;
+}
+
+.infoBox {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.bookInfo {
+    height: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #BDDDFFFF;
+    border-radius: 12px;
+}
+
+.heading, .commentsHeading {
+    font-family: 'Fredoka One', cursive;
+    color: #0075e0;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.paragraph {
+    font-family: 'Fredoka One', cursive;
+    color: #5b80b2;
+    margin: 0;
+}
+
+.commentsBox {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    background-color: #BDDDFFFF;
+    border-radius: 12px;
+}
+
+.commentsHeading {
+    height: 2%;
+    color: #004C91FF;
+}
+
+.addCommentBtn {
+    font-size: 24px;
+    transition: 0.3s;
+    cursor: pointer;
+    margin-top: 1vh;
+}
+
+.addCommentBtn:hover {
+    transform: scale(1.2);
+    opacity: 80%;
+}
+
+.comments {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.commentsWrapper {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.commentBox {
+    background-color: #87C1FFFF;
+    border-radius: 10px;
+}
+
+.commentator {
+    font-family: 'Fredoka One', cursive;
+    padding: 0 0 0 1vw;
+    color: #4D6E91FF;
+}
+
+.comment {
+    font-family: 'Fredoka One', cursive;
+    padding: 0 0 0 1vw;
+    color: #4D6E91FF;
+}
+
+.noComments {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: #5b80b2;
+    margin-bottom: 40px;
+}
+
+.icon {
+    color: #334961FF;
+}
+
+.delBtn {
+    background-color: #0074DEFF;
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    margin: 0 0 1vh 1vw;
+    color: white;
+    border: #0078E6FF inset;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delBtn:hover {
+    opacity: 80%;
+}
+
+.comments::-webkit-scrollbar {
+    height: 12px;
+}
+
+.comments::-webkit-scrollbar-track {
+    border-radius: 20px;
+}
+
+.comments::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: rgba(48, 74, 206, 0.56);
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+    background-color: #2e3b8b;
+}

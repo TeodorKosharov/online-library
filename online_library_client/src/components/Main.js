@@ -5,6 +5,7 @@ import {RegisterPage} from "../pages/RegisterPage";
 import {CatalogPage} from "../pages/CatalogPage";
 import {CreatePage} from "../pages/CreatePage";
 import {ProfilePage} from "../pages/ProfilePage";
+import {DetailsPage} from "../pages/DetailsPage";
 
 export const Main = () => {
 
@@ -16,6 +17,7 @@ export const Main = () => {
                 <Route path='/register' element={<RegisterPage/>}></Route>
                 <Route path='/profile' element={<ProfilePage/>}></Route>
                 <Route path='/create' element={<CreatePage/>}></Route>
+                <Route path='/details/:bookId' element={<DetailsPage/>}></Route>
             </Routes>
         </main>
     );

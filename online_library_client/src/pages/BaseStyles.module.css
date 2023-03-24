@@ -74,6 +74,10 @@
     border-color: #ee203e;
 }
 
+.swalInput {
+    font-family: 'Fredoka One', cursive;
+}
+
 .select {
     font-family: 'Fredoka One', cursive;
     font-size: 16px;
@@ -85,4 +89,9 @@
 
 .select:focus {
     outline: none;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
 }

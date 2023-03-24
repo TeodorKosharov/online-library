@@ -36,6 +36,7 @@ export const LoginPage = () => {
                         .then(() => {
                             localStorage.setItem('token', data['token']);
                             localStorage.setItem('userId', data['user_id']);
+                            localStorage.setItem('username', data['username']);
                             setToken(localStorage.getItem('token'));
                             navigate(('/'));
                         });
