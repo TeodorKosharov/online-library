@@ -104,35 +104,10 @@ def add_comment(request):
         return Response(errors, status=400)
 
 
-@csrf_exempt
-def edit_comment(request, comment_id):
-    if request.user.__class__.__name__ == 'AnonymousUser':
-        return JsonResponse('You must be logged-in!', safe=False, status=401)
-
-    selected_comment = Comment.objects.get(pk=comment_id)
-
-    if request.user.id != selected_comment.commentator_id:
-        return JsonResponse('You can edit only your own comments!', safe=False, status=403)
-
-    if request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = CommentSerializer(instance=selected_comment, data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse('Comment updated successfully!', safe=False, status=200)
-        return JsonResponse(serializer.errors, safe=False, status=400)
-
-
-@csrf_exempt
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_comment(request, comment_id):
-    if request.user.__class__.__name__ == 'AnonymousUser':
-        return JsonResponse('You must be logged-in!', safe=False, status=401)
-
     selected_comment = Comment.objects.get(pk=comment_id)
-
-    if request.user.id != selected_comment.commentator_id:
-        return JsonResponse('You can delete only your own comments!', safe=False, status=403)
-
     selected_comment.delete()
-    return JsonResponse('Comment deleted successfully!', safe=False, status=202)
+    return Response('Comment deleted successfully!', status=202)

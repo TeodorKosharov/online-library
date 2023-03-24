@@ -18,6 +18,6 @@ class Book(models.Model):
 
 
 class Comment(models.Model):
-    commentator_id = models.PositiveIntegerField(null=False, blank=False)
+    commentator_username = models.CharField(max_length=10, null=False, blank=False)
     book_id = models.PositiveIntegerField(null=False, blank=False)
     comment_description = models.CharField(max_length=50, null=False, blank=False)

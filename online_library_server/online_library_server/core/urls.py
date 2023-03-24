@@ -1,6 +1,6 @@
 from django.urls import path
 from online_library_server.core.views import get_books, add_book, edit_book, delete_book, details_book, \
-    get_comments, add_comment, edit_comment, delete_comment
+    get_comments, add_comment, delete_comment
 
 urlpatterns = (
     path('get-books/', get_books),
@@ -11,6 +11,5 @@ urlpatterns = (
 
     path('get-comments/<int:book_id>/', get_comments),
     path('add-comment/', add_comment),
-    path('edit-comment/<int:comment_id>/', edit_comment),
     path('delete-comment/<int:comment_id>/', delete_comment)
 )
