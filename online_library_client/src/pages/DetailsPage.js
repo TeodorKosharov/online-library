@@ -91,8 +91,12 @@ export const DetailsPage = () => {
 
                 <div className={styles.commentsBox}>
                     <p className={styles.commentsHeading}>Comments</p>
-                    <p className={`${styles.commentsHeading} ${styles.addCommentBtn}`}><i
-                        className="fa-solid fa-circle-plus" title="Add comment" onClick={displayCommentForm}></i></p>
+                    {token
+                        ? <p className={`${styles.commentsHeading} ${styles.addCommentBtn}`}><i
+                            className="fa-solid fa-circle-plus" title="Add comment" onClick={displayCommentForm}></i>
+                        </p>
+                        : null
+                    }
 
                     <div className={styles.comments}>
                         {comments.length !== 0
@@ -107,7 +111,9 @@ export const DetailsPage = () => {
                                             className={`fa-solid fa-comment ${styles.icon}`}></i> {comment.comment_description}
                                         </p>
                                         {comment.commentator_username === userUsername
-                                            ? <button className={styles.delBtn} onClick={() => {deleteComment(comment.id)}}>Delete comment</button>
+                                            ? <button className={styles.delBtn} onClick={() => {
+                                                deleteComment(comment.id)
+                                            }}>Delete comment</button>
                                             : null
                                         }
                                     </div>
