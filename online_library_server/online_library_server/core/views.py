@@ -32,24 +32,20 @@ def add_book(request):
         return Response(errors, status=400)
 
 
-@csrf_exempt
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def edit_book(request, book_id):
-    if request.user.__class__.__name__ == 'AnonymousUser':
-        return JsonResponse('You must be logged-in!', safe=False, status=401)
-
     selected_book = Book.objects.get(pk=book_id)
-
-    if request.user.id != selected_book.creator_id:
-        return JsonResponse('You can edit only your own books!', safe=False, status=403)
-
     if request.method == 'PUT':
         data = JSONParser().parse(request)
         serializer = BookSerializer(instance=selected_book, data=data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse('Book updated successfully!', safe=False, status=200)
-        return JsonResponse(serializer.errors, safe=False, status=400)
+            return Response('Book updated successfully!', status=200)
+        errors = serializer.errors.values()
+        return Response(errors, status=400)
 
 
 @api_view(['POST'])
@@ -57,10 +53,6 @@ def edit_book(request, book_id):
 @permission_classes([IsAuthenticated])
 def delete_book(request, book_id):
     selected_book = Book.objects.get(pk=book_id)
-
-    if request.user.id != selected_book.creator_id:
-        return Response('You can delete only your own books!', status=403)
-
     Comment.objects.filter(book_id=selected_book.id).delete()
     selected_book.delete()
     return Response('Book deleted successfully!', status=202)
