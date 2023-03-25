@@ -101,8 +101,11 @@ export const CatalogPage = () => {
                             {userId === book.creator_id
                                 ?
                                 <>
-                                    <i className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
-                                       title="Edit"></i>
+                                    <Link
+                                        className={baseStyles.link}
+                                        to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
+                                        className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
+                                        title="Edit"></i> </Link>
                                     <i className={`fa-solid fa-trash ${styles.actionBtn}`}
                                        title="Delete" onClick={() => {
                                         deleteBook(book.id)
