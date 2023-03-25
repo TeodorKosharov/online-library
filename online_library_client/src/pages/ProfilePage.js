@@ -1,5 +1,88 @@
+import React from "react";
+import styles from "./ProfileStyles.module.css";
+import {Link} from "react-router-dom";
+import baseStyles from "./BaseStyles.module.css";
+import {customQuestionAlert} from "../utils/customQuestionAlert";
+
 export const ProfilePage = () => {
+    const [books, setBooks] = React.useState([]);
+    const username = localStorage.getItem('username');
+    const userId = Number(localStorage.getItem('userId'));
+    const token = localStorage.getItem('token');
+
+    React.useEffect(() => {
+        fetch(`http://127.0.0.1:8000/core/get-user-books/${userId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            }, body: JSON.stringify({'user_id': userId})
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setBooks(data);
+            });
+    }, []);
+
+    function deleteBook(bookId) {
+        customQuestionAlert('Do you want to delete the book?', null)
+            .then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`http://127.0.0.1:8000/core/delete-book/${bookId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${token}`
+                        },
+                        body: JSON.stringify({'book_id': bookId})
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data === 'Book deleted successfully!') {
+                                const updatedBooks = books.filter(book => book.id !== bookId);
+                                setBooks(updatedBooks);
+                            }
+                        });
+                }
+            })
+    }
+
+
     return (
-        <>Profile page</>
+        <div className={styles.profileBox}>
+            <h1 className={styles.heading}>Welcome, {username}</h1>
+            <h2 className={styles.heading}>Your books:</h2>
+            <div className={styles.booksBox}>
+                {books.map(book =>
+                    <div className={styles.bookBox} key={book.id}>
+                        <div className={styles.bookImageBox}>
+                            <img className={styles.bookImage} src={book.image_url}/>
+                        </div>
+
+                        <div className={styles.bookInfoBox}>
+                            <p>Title: <span>{book.title}</span></p>
+                            <p>Genre: <span>{book.genre}</span></p>
+                        </div>
+
+                        <div className={styles.buttonsBox}>
+                            <Link className={baseStyles.link} to={`/details/${book.id}`}>
+                                <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
+                                   title="Details"></i>
+                            </Link>
+
+                            <Link
+                                className={baseStyles.link}
+                                to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
+                                className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
+                                title="Edit"></i> </Link>
+                            <i className={`fa-solid fa-trash ${styles.actionBtn}`}
+                               title="Delete" onClick={() => {
+                                deleteBook(book.id)
+                            }}></i>
+                        </div>
+
+                    </div>)}
+            </div>
+        </div>
     );
 }
