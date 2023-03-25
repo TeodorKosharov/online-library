@@ -21,6 +21,15 @@ def get_books(request):
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
+def get_user_books(request, user_id):
+    books = Book.objects.filter(creator_id=user_id)
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data, status=200)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def add_book(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
