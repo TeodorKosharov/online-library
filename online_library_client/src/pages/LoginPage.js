@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {customAlert} from "../utils/customAlert";
 import {TokenContext} from "../contexts/TokenContext";
 import {useContext} from "react";
+import {customFetch} from "../utils/customFetch";
 
 export const LoginPage = () => {
     const [username, setUsername] = React.useState('');
@@ -21,12 +22,7 @@ export const LoginPage = () => {
 
     function submitForm(event) {
         event.preventDefault();
-
-        fetch('http://127.0.0.1:8000/account/login/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username, password})
-        })
+        customFetch('POST', {username, password}, 'account', 'login', null)
             .then((response) => response.json())
             .then((data) => {
                 if (data === 'User not found!' || data === 'Incorrect password!') {

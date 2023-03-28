@@ -3,6 +3,7 @@ import baseStyles from "./BaseStyles.module.css";
 import React from "react";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
 import {Link} from "react-router-dom";
+import {customFetch} from "../utils/customFetch";
 
 export const CatalogPage = () => {
     const [books, setBooks] = React.useState([]);
@@ -44,23 +45,16 @@ export const CatalogPage = () => {
         customQuestionAlert('Do you want to delete the book?', null)
             .then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://127.0.0.1:8000/core/delete-book/${bookId}/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${token}`
-                        },
-                        body: JSON.stringify({'book_id': bookId})
-                    })
+                    customFetch('POST', {'book_id': bookId}, `core`, `delete-book/${bookId}`, token)
                         .then((response) => response.json())
                         .then((data) => {
                             if (data === 'Book deleted successfully!') {
                                 const updatedBooks = books.filter(book => book.id !== bookId);
                                 setBooks(updatedBooks);
                             }
-                        });
+                        })
                 }
-            })
+            });
     }
 
     return (

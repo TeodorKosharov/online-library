@@ -3,6 +3,7 @@ import styles from "./ProfileStyles.module.css";
 import {Link} from "react-router-dom";
 import baseStyles from "./BaseStyles.module.css";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
+import {customFetch} from "../utils/customFetch";
 
 export const ProfilePage = () => {
     const [books, setBooks] = React.useState([]);
@@ -11,13 +12,7 @@ export const ProfilePage = () => {
     const token = localStorage.getItem('token');
 
     React.useEffect(() => {
-        fetch(`http://127.0.0.1:8000/core/get-user-books/${userId}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
-            }, body: JSON.stringify({'user_id': userId})
-        })
+        customFetch('POST', {'user_id': userId}, 'core', `get-user-books/${userId}`, token)
             .then((response) => response.json())
             .then((data) => {
                 setBooks(data);
@@ -28,14 +23,7 @@ export const ProfilePage = () => {
         customQuestionAlert('Do you want to delete the book?', null)
             .then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://127.0.0.1:8000/core/delete-book/${bookId}/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${token}`
-                        },
-                        body: JSON.stringify({'book_id': bookId})
-                    })
+                    customFetch('POST', {'book_id': bookId}, 'core', `delete-book/${bookId}`, token)
                         .then((response) => response.json())
                         .then((data) => {
                             if (data === 'Book deleted successfully!') {
@@ -47,42 +35,38 @@ export const ProfilePage = () => {
             })
     }
 
+    return (<div className={styles.profileBox}>
+        <h1 className={styles.heading}>Welcome, {username}</h1>
+        <h2 className={styles.heading}>Your books:</h2>
+        <div className={styles.booksBox}>
+            {books.map(book => <div className={styles.bookBox} key={book.id}>
+                <div className={styles.bookImageBox}>
+                    <img className={styles.bookImage} src={book.image_url}/>
+                </div>
 
-    return (
-        <div className={styles.profileBox}>
-            <h1 className={styles.heading}>Welcome, {username}</h1>
-            <h2 className={styles.heading}>Your books:</h2>
-            <div className={styles.booksBox}>
-                {books.map(book =>
-                    <div className={styles.bookBox} key={book.id}>
-                        <div className={styles.bookImageBox}>
-                            <img className={styles.bookImage} src={book.image_url}/>
-                        </div>
+                <div className={styles.bookInfoBox}>
+                    <p>Title: <span>{book.title}</span></p>
+                    <p>Genre: <span>{book.genre}</span></p>
+                </div>
 
-                        <div className={styles.bookInfoBox}>
-                            <p>Title: <span>{book.title}</span></p>
-                            <p>Genre: <span>{book.genre}</span></p>
-                        </div>
+                <div className={styles.buttonsBox}>
+                    <Link className={baseStyles.link} to={`/details/${book.id}`}>
+                        <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
+                           title="Details"></i>
+                    </Link>
 
-                        <div className={styles.buttonsBox}>
-                            <Link className={baseStyles.link} to={`/details/${book.id}`}>
-                                <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
-                                   title="Details"></i>
-                            </Link>
+                    <Link
+                        className={baseStyles.link}
+                        to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
+                        className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
+                        title="Edit"></i> </Link>
+                    <i className={`fa-solid fa-trash ${styles.actionBtn}`}
+                       title="Delete" onClick={() => {
+                        deleteBook(book.id)
+                    }}></i>
+                </div>
 
-                            <Link
-                                className={baseStyles.link}
-                                to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
-                                className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
-                                title="Edit"></i> </Link>
-                            <i className={`fa-solid fa-trash ${styles.actionBtn}`}
-                               title="Delete" onClick={() => {
-                                deleteBook(book.id)
-                            }}></i>
-                        </div>
-
-                    </div>)}
-            </div>
+            </div>)}
         </div>
-    );
+    </div>);
 }

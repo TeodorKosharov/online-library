@@ -1,6 +1,7 @@
 import styles from "./BaseStyles.module.css";
 import React from 'react';
 import {customAlert} from "../utils/customAlert";
+import {customFetch} from "../utils/customFetch";
 
 export const CreatePage = () => {
     const [title, setTitle] = React.useState('');
@@ -48,11 +49,14 @@ export const CreatePage = () => {
         if (description.length >= 1 && description.length < 10) errors += '<p>Description is too short!</p>';
         errors
             ? customAlert('error', 'Oops...', null, errors)
-            : fetch('http://127.0.0.1:8000/core/add-book/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json', 'Authorization': `Token ${token}`},
-                body: JSON.stringify({title, description, genre, 'image_url': imageUrl, 'creator_id': userId})
-            })
+            :
+            customFetch('POST', {
+                title,
+                description,
+                genre,
+                'image_url': imageUrl,
+                'creator_id': userId
+            }, 'core', 'add-book', token)
                 .then((response) => response.json())
                 .then((data) => {
                     if (data === 'Book added successfully!') customAlert('success', 'Success', data, null);

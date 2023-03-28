@@ -2,6 +2,7 @@ import styles from "./BaseStyles.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {customAlert} from "../utils/customAlert";
+import {customFetch} from "../utils/customFetch";
 
 export const RegisterPage = () => {
     const [username, setUsername] = React.useState('');
@@ -45,20 +46,18 @@ export const RegisterPage = () => {
         if (password !== confirmPassword) errors += '<p>Passwords did not match!</p>';
         errors
             ? customAlert('error', 'Oops...', null, errors)
-            : fetch('http://127.0.0.1:8000/account/register/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username, password})
-            }).then((response) => response.json()).then((data) => {
-                if (data === 'User registered successfully!') {
-                    customAlert('success', 'Success', 'You have registered successfully!')
-                        .then(() => {
-                            navigate(('/'));
-                        });
-                } else {
-                    customAlert('error', 'Oops...', data[0][0]);
-                }
-            });
+            : customFetch('POST', {username, password}, 'account', 'register', null)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data === 'User registered successfully!') {
+                        customAlert('success', 'Success', 'You have registered successfully!')
+                            .then(() => {
+                                navigate(('/'));
+                            });
+                    } else {
+                        customAlert('error', 'Oops...', data[0][0]);
+                    }
+                });
     }
 
     return (<div className={styles.loginContainer}>

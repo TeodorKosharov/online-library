@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./DetailsStyles.module.css";
 import {useParams} from "react-router-dom";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
+import {customFetch} from "../utils/customFetch";
 
 
 export const DetailsPage = () => {
@@ -12,22 +13,13 @@ export const DetailsPage = () => {
     const userUsername = localStorage.getItem('username');
 
     React.useEffect(() => {
-        fetch(`http://127.0.0.1:8000/core/details-book/${Number(bookId)}/`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'book_id': Number(bookId)})
-        })
+        customFetch('POST', {'book_id': Number(bookId)}, 'core', `details-book/${Number(bookId)}`, null)
             .then((response) => response.json())
             .then((data) => setBook(data));
 
-        fetch(`http://127.0.0.1:8000/core/get-comments/${Number(bookId)}/`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'book_id': Number(bookId)})
-        })
+        customFetch('POST', {'book_id': Number(bookId)}, 'core', `get-comments/${Number(bookId)}`, null)
             .then((response) => response.json())
             .then((data) => setComments(data));
-
     }, []);
 
     function displayCommentForm() {
@@ -39,11 +31,7 @@ export const DetailsPage = () => {
             {'commentator_username': userUsername, 'book_id': bookId},
             {icon: 'error', title: 'Oops...', text: 'Comment can not be empty!'})
             .then(() => {
-                fetch(`http://127.0.0.1:8000/core/get-comments/${Number(bookId)}/`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({'book_id': Number(bookId)})
-                })
+                customFetch('POST', {'book_id': Number(bookId)}, 'core', `get-comments/${Number(bookId)}`, null)
                     .then((response) => response.json())
                     .then((data) => setComments(data));
             });
@@ -53,13 +41,7 @@ export const DetailsPage = () => {
         customQuestionAlert('Delete the comment?', null)
             .then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`http://127.0.0.1:8000/core/delete-comment/${Number(commentId)}/`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Token ${token}`
-                        }, body: JSON.stringify({'comment_id': commentId})
-                    })
+                    customFetch('POST', {'comment_id': commentId}, 'core', `delete-comment/${Number(commentId)}`, token)
                         .then((response) => response.json())
                         .then((data) => {
                             if (data === 'Comment deleted successfully!') {
@@ -126,6 +108,4 @@ export const DetailsPage = () => {
             </div>
         </div>
     );
-
-
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import {customAlert} from "../utils/customAlert";
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
+import {customFetch} from "../utils/customFetch";
 
 export const EditPage = () => {
     const {bookId, bookTitle, bookDescription, bookGenre, bookImg} = useParams();
@@ -52,11 +53,13 @@ export const EditPage = () => {
         if (description.length >= 1 && description.length < 10) errors += '<p>Description is too short!</p>';
         errors
             ? customAlert('error', 'Oops...', null, errors)
-            : fetch(`http://127.0.0.1:8000/core/edit-book/${bookId}/`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json', 'Authorization': `Token ${token}`},
-                body: JSON.stringify({title, description, genre, 'image_url': imageUrl, 'creator_id': userId})
-            })
+            : customFetch('PUT', {
+                title,
+                description,
+                genre,
+                'image_url': imageUrl,
+                'creator_id': userId
+            }, 'core', `edit-book/${bookId}`, token)
                 .then((response) => response.json())
                 .then((data) => {
                     if (data === 'Book updated successfully!') {
