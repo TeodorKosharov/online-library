@@ -3,14 +3,14 @@ import styles from "./DetailsStyles.module.css";
 import {useParams} from "react-router-dom";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
 import {customFetch} from "../utils/customFetch";
+import {getUserData} from "../utils/genericUtils";
 
 
 export const DetailsPage = () => {
     const [book, setBook] = React.useState('');
     const [comments, setComments] = React.useState([]);
     const {bookId} = useParams();
-    const token = localStorage.getItem('token');
-    const userUsername = localStorage.getItem('username');
+    const [userUsername, , token] = getUserData();
 
     React.useEffect(() => {
         customFetch('POST', {'book_id': Number(bookId)}, 'core', `details-book/${Number(bookId)}`, null)

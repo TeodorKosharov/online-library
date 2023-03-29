@@ -4,13 +4,13 @@ import React from "react";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
 import {Link} from "react-router-dom";
 import {customFetch} from "../utils/customFetch";
+import {getUserData} from "../utils/genericUtils";
 
 export const CatalogPage = () => {
     const [books, setBooks] = React.useState([]);
     const [genre, setGenre] = React.useState('fiction');
     const [formFilter, setFormFilter] = React.useState('None');
-    const userId = Number(localStorage.getItem('userId'));
-    const token = localStorage.getItem('token');
+    const [, userId, token] = getUserData();
 
     React.useEffect(() => {
         fetch('http://127.0.0.1:8000/core/get-books/')
@@ -99,19 +99,18 @@ export const CatalogPage = () => {
                                         className={baseStyles.link}
                                         to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
                                         className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
-                                        title="Edit"></i> </Link>
+                                        title="Edit"></i>
+                                    </Link>
                                     <i className={`fa-solid fa-trash ${styles.actionBtn}`}
-                                       title="Delete" onClick={() => {
-                                        deleteBook(book.id)
-                                    }}></i>
+                                       title="Delete"
+                                       onClick={() => {deleteBook(book.id)}}>
+                                    </i>
                                 </>
                                 : null
                             }
                         </div>
-
                     </div>)}
             </div>
-
         </div>
     );
 }

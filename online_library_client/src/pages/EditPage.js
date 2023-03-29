@@ -4,6 +4,7 @@ import {customAlert} from "../utils/customAlert";
 import {useParams} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 import {customFetch} from "../utils/customFetch";
+import {getUserData, getInputClasses} from "../utils/genericUtils";
 
 export const EditPage = () => {
     const {bookId, bookTitle, bookDescription, bookGenre, bookImg} = useParams();
@@ -11,18 +12,8 @@ export const EditPage = () => {
     const [description, setDescription] = React.useState(bookDescription);
     const [genre, setGenre] = React.useState(bookGenre);
     const [imageUrl, setImageUrl] = React.useState(bookImg);
+    const [titleInputClasses, descriptionInputClasses] = getInputClasses(title, description, styles.input, styles.invalid);
     const navigate = useNavigate();
-
-    let titleInputClasses = `${styles.input}`;
-    let descriptionInputClasses = `${styles.input}`;
-
-    if (title.length < 3 && title.length >= 1) {
-        titleInputClasses += ` ${styles.invalid}`;
-    }
-
-    if (description.length < 10 && description.length >= 1) {
-        descriptionInputClasses += ` ${styles.invalid}`;
-    }
 
     function onTitleChange(event) {
         setTitle(event.target.value);
@@ -45,8 +36,7 @@ export const EditPage = () => {
         setTitle('');
         setDescription('');
         setImageUrl('');
-        const userId = Number(localStorage.getItem('userId'));
-        const token = localStorage.getItem('token');
+        const [, userId, token] = getUserData();
         let errors = '';
 
         if (title.length >= 1 && title.length <= 3) errors += '<p>Title is too short!</p>';

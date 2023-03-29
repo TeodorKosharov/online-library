@@ -2,23 +2,14 @@ import styles from "./BaseStyles.module.css";
 import React from 'react';
 import {customAlert} from "../utils/customAlert";
 import {customFetch} from "../utils/customFetch";
+import {getUserData, getInputClasses} from "../utils/genericUtils";
 
 export const CreatePage = () => {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [genre, setGenre] = React.useState('fiction');
     const [imageUrl, setImageUrl] = React.useState('');
-
-    let titleInputClasses = `${styles.input}`;
-    let descriptionInputClasses = `${styles.input}`;
-
-    if (title.length < 3 && title.length >= 1) {
-        titleInputClasses += ` ${styles.invalid}`;
-    }
-
-    if (description.length < 10 && description.length >= 1) {
-        descriptionInputClasses += ` ${styles.invalid}`;
-    }
+    const [titleInputClasses, descriptionInputClasses] = getInputClasses(title, description, styles.input, styles.invalid);
 
     function onTitleChange(event) {
         setTitle(event.target.value);
@@ -41,8 +32,7 @@ export const CreatePage = () => {
         setTitle('');
         setDescription('');
         setImageUrl('');
-        const userId = Number(localStorage.getItem('userId'));
-        const token = localStorage.getItem('token');
+        const [, userId, token] = getUserData();
         let errors = '';
 
         if (title.length >= 1 && title.length <= 3) errors += '<p>Title is too short!</p>';

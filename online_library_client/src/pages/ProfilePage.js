@@ -4,12 +4,11 @@ import {Link} from "react-router-dom";
 import baseStyles from "./BaseStyles.module.css";
 import {customQuestionAlert} from "../utils/customQuestionAlert";
 import {customFetch} from "../utils/customFetch";
+import {getUserData} from "../utils/genericUtils";
 
 export const ProfilePage = () => {
     const [books, setBooks] = React.useState([]);
-    const username = localStorage.getItem('username');
-    const userId = Number(localStorage.getItem('userId'));
-    const token = localStorage.getItem('token');
+    const [username, userId, token] = getUserData();
 
     React.useEffect(() => {
         customFetch('POST', {'user_id': userId}, 'core', `get-user-books/${userId}`, token)
