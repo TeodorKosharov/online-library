@@ -1,10 +1,9 @@
 import styles from "./CatalogStyles.module.css";
 import baseStyles from "./BaseStyles.module.css";
 import React from "react";
-import {customQuestionAlert} from "../utils/customQuestionAlert";
-import {Link} from "react-router-dom";
-import {customFetch} from "../utils/customFetch";
 import {getUserData} from "../utils/genericUtils";
+import {BooksList} from "../components/BooksList";
+import {FilterForm} from "../components/FilterForm";
 
 export const CatalogPage = () => {
     const [books, setBooks] = React.useState([]);
@@ -32,85 +31,13 @@ export const CatalogPage = () => {
             });
     }, [formFilter]);
 
-    function onGenreChange(event) {
-        setGenre(event.target.value);
-    }
-
-    function onFormSubmit(event) {
-        event.preventDefault();
-        setFormFilter(genre);
-    }
-
-    function deleteBook(bookId) {
-        customQuestionAlert('Do you want to delete the book?', null)
-            .then((result) => {
-                if (result.isConfirmed) {
-                    customFetch('POST', {'book_id': bookId}, `core`, `delete-book/${bookId}`, token)
-                        .then((response) => response.json())
-                        .then((data) => {
-                            if (data === 'Book deleted successfully!') {
-                                const updatedBooks = books.filter(book => book.id !== bookId);
-                                setBooks(updatedBooks);
-                            }
-                        })
-                }
-            });
-    }
 
     return (
         <div className={styles.wrapper}>
-
             <div className={styles.settingsBox}>
-                <form onSubmit={onFormSubmit}>
-                    <label className={baseStyles.label} id="genre">Filter by genre </label>
-                    <select className={baseStyles.select} id="genre" onClick={onGenreChange}>
-                        <option>None</option>
-                        <option>fiction</option>
-                        <option>mystery</option>
-                        <option>adventure</option>
-                        <option>biography</option>
-                    </select>
-                    <button className={styles.filterBtn} title="Filter"><i className="fa-solid fa-filter"></i></button>
-                </form>
+                <FilterForm data={{genre, setGenre, setFormFilter, styles, baseStyles}} />
             </div>
-
-            <div className={styles.catalogBox}>
-                {books.map(book =>
-                    <div className={styles.bookBox} key={book.id}>
-                        <div className={styles.bookImageBox}>
-                            <img className={styles.bookImage} src={book.image_url}/>
-                        </div>
-
-                        <div className={styles.bookInfoBox}>
-                            <p>Title: <span>{book.title}</span></p>
-                            <p>Genre: <span>{book.genre}</span></p>
-                        </div>
-
-                        <div className={styles.buttonsBox}>
-                            <Link className={baseStyles.link} to={`/details/${book.id}`}>
-                                <i className={`fa-solid fa-circle-info ${styles.actionBtn}`}
-                                   title="Details"></i>
-                            </Link>
-
-                            {userId === book.creator_id
-                                ?
-                                <>
-                                    <Link
-                                        className={baseStyles.link}
-                                        to={`/edit/${book.id}/${book.title}/${book.description}/${book.genre}/${encodeURIComponent(book.image_url)}`}><i
-                                        className={`fa-solid fa-pen-to-square ${styles.actionBtn}`}
-                                        title="Edit"></i>
-                                    </Link>
-                                    <i className={`fa-solid fa-trash ${styles.actionBtn}`}
-                                       title="Delete"
-                                       onClick={() => {deleteBook(book.id)}}>
-                                    </i>
-                                </>
-                                : null
-                            }
-                        </div>
-                    </div>)}
-            </div>
+            <BooksList data={{books, setBooks, userId, token, styles, baseStyles}}/>
         </div>
     );
 }

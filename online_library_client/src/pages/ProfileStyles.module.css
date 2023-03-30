@@ -11,6 +11,14 @@
     color: #1546B0FF;
 }
 
+.catalogBox {
+    height: 60%;
+    width: 60%;
+    display: flex;
+    gap: 4vw;
+    overflow: auto;
+}
+
 .booksBox {
     width: 65%;
     height: 65%;
@@ -19,20 +27,20 @@
     overflow: auto;
 }
 
-.booksBox::-webkit-scrollbar {
+.catalogBox::-webkit-scrollbar {
     height: 12px;
 }
 
-.booksBox::-webkit-scrollbar-track {
+.catalogBox::-webkit-scrollbar-track {
     border-radius: 20px;
 }
 
-.booksBox::-webkit-scrollbar-thumb {
+.catalogBox::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background-color: rgba(48, 74, 206, 0.56);
 }
 
-.booksBox::-webkit-scrollbar-thumb:hover {
+.catalogBox::-webkit-scrollbar-thumb:hover {
     background-color: #2e3b8b;
 }
 
