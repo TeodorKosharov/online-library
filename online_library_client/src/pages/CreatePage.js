@@ -8,7 +8,7 @@ export const CreatePage = () => {
             bookId: '',
             bookTitle: '',
             bookDescription: '',
-            bookGenre: '',
+            bookGenre: 'fiction',
             bookImg: '',
             buttonText: 'Add book'
         }}/>
