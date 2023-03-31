@@ -7,7 +7,7 @@ Single page application, built with React and Django.
 Clone the repository
 
 ```
-https://github.com/TeodorKosharov/online-library.git
+git clone https://github.com/TeodorKosharov/online-library.git
 ```
 
 The server should be started first, because the client is fetching data from it. \
@@ -40,23 +40,23 @@ You may also see any lint errors in the console.
 
 ### Endpoints:
 
-- http://127.0.0.1:8000/account/register/ - <b>method</b>: POST, <b>body</b>: {username: ..., password: ...}
-- http://127.0.0.1:8000/account/login/ - <b>method</b>: POST, <b>body</b>: {username: ..., password: ...}, <b>returns</b> {'token': ..., 'user_id': ..., 'username': ...}
-- http://127.0.0.1:8000/core/get-books/ - <b>method</b>: GET, <b>returns</b> array of book objects
-- http://127.0.0.1:8000/core/get-comments/book_id/ - <b>method</b>: POST, <b>body</b>: {book_id: ...}, <b>returns</b> array of comment objects
-- http://127.0.0.1:8000/core/details-book/book_id/ - <b>method</b>: POST, <b>body</b>: {book_id: ...}, <b>returns</b> {'title': ..., 'description': ..., 'genre': ..., 'imageUrl: ...}
+- http://127.0.0.1:8000/account/register/ <br> <b>method</b>: POST, <b>body</b>: {username: ..., password: ...}
+- http://127.0.0.1:8000/account/login/ <br> <b>method</b>: POST, <b>body</b>: {username: ..., password: ...}, <b>returns</b> {'token': ..., 'user_id': ..., 'username': ...}
+- http://127.0.0.1:8000/core/get-books/ <br> <b>method</b>: GET, <b>returns</b> array of book objects
+- http://127.0.0.1:8000/core/get-comments/book_id/ <br> <b>method</b>: POST, <b>body</b>: {book_id: ...}, <b>returns</b> array of comment objects
+- http://127.0.0.1:8000/core/details-book/book_id/ <br> <b>method</b>: POST, <b>body</b>: {book_id: ...}, <b>returns</b> {'title': ..., 'description': ..., 'genre': ..., 'imageUrl: ...}
 
-For the next endpoints you have to send the token with the request. Add this to the headers:
+For the next endpoints you have to send the token with the request. Add the following string to the headers:
 ``` 
 Authorization: Token ${token}
 ```
 
-- http://127.0.0.1:8000/core/get-user-books/user_id/ - <b>method</b>: POST, <b>body</b>: {'user_id': ...}, <b>returns</b> array of user's book objects
-- http://127.0.0.1:8000/core/add-book/ - <b>method</b>: POST, <b>body</b>: {title: ..., description: ..., genre: ..., image_url: ..., creator_id: ...}
-- http://127.0.0.1:8000/core/edit-book/book_id/ - <b>method</b>: PUT, <b>body</b>: {title: ..., description: ..., genre: ..., image_url: ..., creator_id: ...}
-- http://127.0.0.1:8000/core/delete-book/book_id/ - <b>method</b>: POST, <b>body</b>: {book_id: ...}
-- http://127.0.0.1:8000/core/add-comment/ - <b>method</b>: POST, <b>body</b>: {book_id: ...}
-- http://127.0.0.1:8000/core/delete-comment/comment_id/ - <b>method</b>: POST, <b>body<b>: {comment_id: ...}
+- http://127.0.0.1:8000/core/get-user-books/user_id/ <br> <b>method</b>: POST, <b>body</b>: {'user_id': ...}, <b>returns</b> array of user's book objects
+- http://127.0.0.1:8000/core/add-book/ <br> <b>method</b>: POST, <b>body</b>: {title: ..., description: ..., genre: ..., image_url: ..., creator_id: ...}
+- http://127.0.0.1:8000/core/edit-book/book_id/ <br> <b>method</b>: PUT, <b>body</b>: {title: ..., description: ..., genre: ..., image_url: ..., creator_id: ...}
+- http://127.0.0.1:8000/core/delete-book/book_id/ <br> <b>method</b>: POST, <b>body</b>: {book_id: ...}
+- http://127.0.0.1:8000/core/add-comment/ <br> <b>method</b>: POST, <b>body</b>: {book_id: ...}
+- http://127.0.0.1:8000/core/delete-comment/comment_id/ <br> <b>method</b>: POST, <b>body<b>: {comment_id: ...}
 
 
 
