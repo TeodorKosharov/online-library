@@ -1,1 +1,2 @@
 web: gunicorn online_library_server.wsgi
+release: python manage.py migrate
