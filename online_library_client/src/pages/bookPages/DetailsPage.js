@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./DetailsStyles.module.css";
+import styles from "../pagesStyles/DetailsStyles.module.css";
 import {useParams} from "react-router-dom";
-import {customFetch} from "../utils/customFetch";
-import {getUserData} from "../utils/genericUtils";
-import {Comments} from "../components/Comments";
-import {BookInfo} from "../components/BookInfo";
+import {customFetch} from "../../utils/customFetch";
+import {getUserData} from "../../utils/genericUtils";
+import {Comments} from "../../components/bookComponents/Comments";
+import {BookInfo} from "../../components/bookComponents/BookInfo";
 
 
 export const DetailsPage = () => {

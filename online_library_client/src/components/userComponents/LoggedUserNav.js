@@ -1,7 +1,7 @@
-import styles from "./Header.module.css";
+import styles from "../componentsStyles/Header.module.css";
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
-import {customQuestionAlert} from "../utils/customQuestionAlert";
+import {customQuestionAlert} from "../../utils/customQuestionAlert";
 
 export const LoggedUserNav = (props) => {
     const navigate = useNavigate();

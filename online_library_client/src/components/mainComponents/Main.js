@@ -1,14 +1,14 @@
-import styles from "./Main.module.css";
+import styles from "../componentsStyles/Main.module.css";
 import {Route, Routes} from "react-router-dom";
-import {LoginPage} from "../pages/LoginPage";
-import {RegisterPage} from "../pages/RegisterPage";
-import {CatalogPage} from "../pages/CatalogPage";
-import {CreatePage} from "../pages/CreatePage";
-import {ProfilePage} from "../pages/ProfilePage";
-import {DetailsPage} from "../pages/DetailsPage";
-import {EditPage} from "../pages/EditPage";
-import {RouteGuard} from "./RouteGuard";
-import {NotFoundPage} from "../pages/NotFoundPage";
+import {LoginPage} from "../../pages/userPages/LoginPage";
+import {RegisterPage} from "../../pages/userPages/RegisterPage";
+import {CatalogPage} from "../../pages/bookPages/CatalogPage";
+import {CreatePage} from "../../pages/bookPages/CreatePage";
+import {ProfilePage} from "../../pages/userPages/ProfilePage";
+import {DetailsPage} from "../../pages/bookPages/DetailsPage";
+import {EditPage} from "../../pages/bookPages/EditPage";
+import {RouteGuard} from "../userComponents/RouteGuard";
+import {NotFoundPage} from "../../pages/NotFoundPage";
 
 export const Main = () => {
 

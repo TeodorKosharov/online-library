@@ -1,9 +1,9 @@
-import styles from "../pages/BaseStyles.module.css";
+import styles from "../../pages/pagesStyles/BaseStyles.module.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {getInputClasses, getUserData} from "../utils/genericUtils";
-import {customAlert} from "../utils/customAlert";
-import {customFetch} from "../utils/customFetch";
+import {getInputClasses, getUserData} from "../../utils/genericUtils";
+import {customAlert} from "../../utils/customAlert";
+import {customFetch} from "../../utils/customFetch";
 
 export const BookForm = (props) => {
     const {method, endpoint, bookTitle, bookDescription, bookGenre, bookImg, buttonText} = props.data;

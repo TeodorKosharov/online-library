@@ -1,9 +1,9 @@
-import styles from "../pages/BaseStyles.module.css";
+import styles from "../../pages/pagesStyles/BaseStyles.module.css";
 import React, {useContext} from "react";
-import {customFetch} from "../utils/customFetch";
-import {customAlert} from "../utils/customAlert";
+import {customFetch} from "../../utils/customFetch";
+import {customAlert} from "../../utils/customAlert";
 import {useNavigate} from "react-router-dom";
-import {TokenContext} from "../contexts/TokenContext";
+import {TokenContext} from "../../contexts/TokenContext";
 
 export const LoginForm = (props) => {
     const {username, setUsername, password, setPassword} = props.data;

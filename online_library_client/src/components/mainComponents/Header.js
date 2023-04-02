@@ -1,8 +1,8 @@
-import styles from "./Header.module.css";
+import styles from "../componentsStyles/Header.module.css";
 import {Link} from "react-router-dom";
-import {LoggedUserNav} from "./LoggedUserNav";
-import {NotLoggedUserNav} from "./NotLoggedUserNav";
-import {TokenContext} from "../contexts/TokenContext";
+import {LoggedUserNav} from "../userComponents/LoggedUserNav";
+import {NotLoggedUserNav} from "../userComponents/NotLoggedUserNav";
+import {TokenContext} from "../../contexts/TokenContext";
 import {useContext} from "react";
 
 export const Header = () => {

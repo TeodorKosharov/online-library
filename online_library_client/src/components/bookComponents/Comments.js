@@ -1,7 +1,7 @@
-import styles from "../pages/DetailsStyles.module.css";
+import styles from "../../pages/pagesStyles/DetailsStyles.module.css";
 import React from "react";
-import {customQuestionAlert} from "../utils/customQuestionAlert";
-import {customFetch} from "../utils/customFetch";
+import {customQuestionAlert} from "../../utils/customQuestionAlert";
+import {customFetch} from "../../utils/customFetch";
 
 export const Comments = (props) => {
     const [comments, setComments] = React.useState([]);

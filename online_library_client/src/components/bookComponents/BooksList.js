@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
-import {customQuestionAlert} from "../utils/customQuestionAlert";
-import {customFetch} from "../utils/customFetch";
+import {customQuestionAlert} from "../../utils/customQuestionAlert";
+import {customFetch} from "../../utils/customFetch";
 
 export const BooksList = (props) => {
     const {books, setBooks, userId, token, styles, baseStyles} = props.data;

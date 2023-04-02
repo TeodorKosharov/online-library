@@ -1,4 +1,4 @@
-import styles from "../pages/DetailsStyles.module.css";
+import styles from "../../pages/pagesStyles/DetailsStyles.module.css";
 import React from "react";
 
 export const BookInfo = (props) => {

@@ -1,9 +1,9 @@
 import React from "react";
-import styles from "./ProfileStyles.module.css";
-import baseStyles from "./BaseStyles.module.css";
-import {customFetch} from "../utils/customFetch";
-import {getUserData} from "../utils/genericUtils";
-import {BooksList} from "../components/BooksList";
+import styles from "../pagesStyles/ProfileStyles.module.css";
+import baseStyles from "../pagesStyles/BaseStyles.module.css";
+import {customFetch} from "../../utils/customFetch";
+import {getUserData} from "../../utils/genericUtils";
+import {BooksList} from "../../components/bookComponents/BooksList";
 
 
 export const ProfilePage = () => {

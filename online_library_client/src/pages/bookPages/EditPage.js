@@ -1,6 +1,6 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
-import {BookForm} from "../components/BookForm";
+import {BookForm} from "../../components/bookComponents/BookForm";
 
 export const EditPage = () => {
     const {bookId, bookTitle, bookDescription, bookGenre, bookImg} = useParams();

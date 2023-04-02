@@ -1,9 +1,9 @@
-import styles from "./CatalogStyles.module.css";
-import baseStyles from "./BaseStyles.module.css";
+import styles from "../pagesStyles/CatalogStyles.module.css";
+import baseStyles from "../pagesStyles/BaseStyles.module.css";
 import React from "react";
-import {getUserData} from "../utils/genericUtils";
-import {BooksList} from "../components/BooksList";
-import {FilterForm} from "../components/FilterForm";
+import {getUserData} from "../../utils/genericUtils";
+import {BooksList} from "../../components/bookComponents/BooksList";
+import {FilterForm} from "../../components/bookComponents/FilterForm";
 
 export const CatalogPage = () => {
     const [books, setBooks] = React.useState([]);

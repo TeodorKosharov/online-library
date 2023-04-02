@@ -1,6 +1,6 @@
-import styles from "./BaseStyles.module.css";
+import styles from "../pagesStyles/BaseStyles.module.css";
 import React from "react";
-import {RegisterForm} from "../components/RegisterForm";
+import {RegisterForm} from "../../components/userComponents/RegisterForm";
 
 export const RegisterPage = () => {
     const [username, setUsername] = React.useState('');

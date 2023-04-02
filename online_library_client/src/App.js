@@ -1,7 +1,7 @@
 import './App.css';
-import {Header} from "./components/Header";
-import {Main} from "./components/Main";
-import {Footer} from "./components/Footer";
+import {Header} from "./components/mainComponents/Header";
+import {Main} from "./components/mainComponents/Main";
+import {Footer} from "./components/mainComponents/Footer";
 import {TokenContext} from "./contexts/TokenContext";
 import React from "react";
 

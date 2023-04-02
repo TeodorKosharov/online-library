@@ -1,9 +1,9 @@
-import styles from "../pages/BaseStyles.module.css";
+import styles from "../../pages/pagesStyles/BaseStyles.module.css";
 import React from "react";
-import {customAlert} from "../utils/customAlert";
-import {customFetch} from "../utils/customFetch";
+import {customAlert} from "../../utils/customAlert";
+import {customFetch} from "../../utils/customFetch";
 import {useNavigate} from "react-router-dom";
-import {getRegisterInputClasses} from "../utils/genericUtils";
+import {getRegisterInputClasses} from "../../utils/genericUtils";
 
 export const RegisterForm = (props) => {
     const {username, setUsername, password, setPassword, confirmPassword, setConfirmPassword} = props.data;
