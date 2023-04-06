@@ -1,14 +1,12 @@
 import {customFetch} from "../utils/customFetch";
-import {getServerResponseData, addBookServerResponseData, editBookServerResponseData} from "../utils/genericUtils";
+import {
+    loginUser,
+    getServerResponseData,
+    addBookServerResponseData,
+    editBookServerResponseData
+} from "../utils/genericUtils";
 
 describe("Books CRUD operations tests", () => {
-    async function loginUser() {
-        const {token, user_id} = (await (await customFetch('POST', {
-            username: 'Stamat',
-            password: '12345678'
-        }, 'account', 'login', null)).json());
-        return [token, user_id];
-    }
 
     describe("Create books tests", () => {
         test("Successful book creation", async () => {
@@ -115,7 +113,6 @@ describe("Books CRUD operations tests", () => {
             expect(data.title).toBe('Superman');
             expect(data.description).toBe('Very nice book!');
             expect(data.genre).toBe('fiction');
-            expect(data.genre).toBe('fiction');
             expect(data.imageUrl).toBe('https://upload.wikimedia.org/wikipedia/en/d/d6/Superman_Man_of_Steel.jpg');
         });
     });
@@ -125,7 +122,7 @@ describe("Books CRUD operations tests", () => {
             const [token, user_id] = await loginUser();
             const data = await editBookServerResponseData({
                 title: 'Superman',
-                description: 'very nice book!',
+                description: 'Very nice book!',
                 genre: 'fiction',
                 image_url: 'https://upload.wikimedia.org/wikipedia/en/d/d6/Superman_Man_of_Steel.jpg',
                 creator_id: user_id
@@ -204,7 +201,6 @@ describe("Books CRUD operations tests", () => {
             }, 'unknown', 5);
             expect(data.detail).toBe('Invalid token.');
         });
-
     });
 
     describe("Delete book tests", () => {

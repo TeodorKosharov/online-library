@@ -41,6 +41,14 @@ export function getRegisterInputClasses(username, password, confirmPassword, ini
 
 // The following functions are used in the tests:
 
+export async function loginUser() {
+    const {token, user_id} = (await (await customFetch('POST', {
+        username: 'Stamat',
+        password: '12345678'
+    }, 'account', 'login', null)).json());
+    return [token, user_id];
+}
+
 export async function getServerResponseData(method, body, secondaryUrl, endpoint, token) {
     const response = await customFetch(method, body, secondaryUrl, endpoint, token);
     return await response.json();
