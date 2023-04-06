@@ -11,7 +11,7 @@ export const ProfilePage = () => {
     const [username, userId, token] = getUserData();
 
     React.useEffect(() => {
-        customFetch('POST', {'user_id': userId}, 'core', `get-user-books/${userId}`, token)
+        customFetch('GET', undefined, 'core', `get-user-books/${userId}`, token)
             .then((response) => response.json())
             .then((data) => {
                 setBooks(data);

@@ -8,7 +8,7 @@ export const Comments = (props) => {
     const {userUsername, token, bookId} = props.data;
 
     React.useEffect(() => {
-        customFetch('POST', {'book_id': Number(bookId)}, 'core', `get-comments/${Number(bookId)}`, null)
+        customFetch('GET', undefined, 'core', `get-comments/${Number(bookId)}`, null)
             .then((response) => response.json())
             .then((data) => setComments(data));
     }, []);
@@ -22,7 +22,7 @@ export const Comments = (props) => {
             {'commentator_username': userUsername, 'book_id': bookId},
             {icon: 'error', title: 'Oops...', text: 'Comment can not be empty!'})
             .then(() => {
-                customFetch('POST', {'book_id': Number(bookId)}, 'core', `get-comments/${Number(bookId)}`, null)
+                customFetch('GET', undefined, 'core', `get-comments/${Number(bookId)}`, null)
                     .then((response) => response.json())
                     .then((data) => setComments(data));
             });
@@ -32,7 +32,7 @@ export const Comments = (props) => {
         customQuestionAlert('Delete the comment?', null)
             .then((result) => {
                 if (result.isConfirmed) {
-                    customFetch('POST', {'comment_id': commentId}, 'core', `delete-comment/${Number(commentId)}`, token)
+                    customFetch('DELETE', undefined, 'core', `delete-comment/${Number(commentId)}`, token)
                         .then((response) => response.json())
                         .then((data) => {
                             if (data === 'Comment deleted successfully!') {

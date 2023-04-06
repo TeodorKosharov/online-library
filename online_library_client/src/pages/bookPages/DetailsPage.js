@@ -13,7 +13,7 @@ export const DetailsPage = () => {
     const [userUsername, , token] = getUserData();
 
     React.useEffect(() => {
-        customFetch('POST', {'book_id': Number(bookId)}, 'core', `details-book/${Number(bookId)}`, null)
+        customFetch('GET', undefined, 'core', `details-book/${Number(bookId)}`, null)
             .then((response) => response.json())
             .then((data) => setBook(data));
     }, []);

@@ -1,3 +1,5 @@
+import {customFetch} from "./customFetch";
+
 export function getUserData() {
     return [localStorage.getItem('username'), Number(localStorage.getItem('userId')), localStorage.getItem('token')];
 }
@@ -35,4 +37,19 @@ export function getRegisterInputClasses(username, password, confirmPassword, ini
     }
 
     return [usernameInputClasses, passwordInputClasses, confPasswordInputClasses];
+}
+
+// The following functions are used in the tests:
+
+export async function getServerResponseData(method, body, secondaryUrl, endpoint, token) {
+    const response = await customFetch(method, body, secondaryUrl, endpoint, token);
+    return await response.json();
+}
+
+export async function addBookServerResponseData(body, token) {
+    return await getServerResponseData('POST', body, 'core', 'add-book', token);
+}
+
+export async function editBookServerResponseData(body, token, bookId) {
+    return await getServerResponseData('PUT', body, 'core', `edit-book/${bookId}`, token);
 }

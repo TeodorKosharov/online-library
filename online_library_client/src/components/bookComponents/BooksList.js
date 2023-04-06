@@ -10,7 +10,7 @@ export const BooksList = (props) => {
         customQuestionAlert('Do you want to delete the book?', null)
             .then((result) => {
                 if (result.isConfirmed) {
-                    customFetch('POST', {'book_id': bookId}, 'core', `delete-book/${bookId}`, token)
+                    customFetch('DELETE', undefined, 'core', `delete-book/${bookId}`, token)
                         .then((response) => response.json())
                         .then((data) => {
                             if (data === 'Book deleted successfully!') {

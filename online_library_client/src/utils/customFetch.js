@@ -8,5 +8,5 @@ export function customFetch(method, body, secondaryUrl, endpoint, token) {
             'Authorization': `Token ${token}`
         },
         body: JSON.stringify(body)
-    })
+    });
 }
